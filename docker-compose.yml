@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  localstack:
+      image: localstack/localstack:0.10.6
+      environment:
+        - SERVICES=lambda,sqs
+        - LAMBDA_EXECUTOR=docker
+        - AWS_DEFAULT_REGION=us-east-1
+        - DOCKER_HOST=unix:///var/run/docker.sock
+        - DEBUG=1
+      volumes:
+        - "./tmp/localstack:/tmp/localstack"
+        - "./bin/linux_amd64:/bin/linux_amd64"
+        - ./localstack_setup:/docker-entrypoint-initaws.d/
+        - "./scripts/:/scripts"
+        - "/var/run/docker.sock:/var/run/docker.sock"
+      ports:
+        - "4576:4576"
+        - "4574:4574"
+      networks:
+        - dev
+
+networks:
+  dev:
+    name: example
