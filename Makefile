@@ -8,6 +8,8 @@ GO_LINTER := golint
 GOFLAGS ?=
 ROOT_DIR := $(realpath .)
 
+DOCKER_COMPOSE := docker-compose
+
 PKGS = $(shell $(GO) list ./...)
 
 ## usage: show available actions
@@ -23,6 +25,16 @@ build: unit-tests
 	@echo "$(OK_COLOR)==> Building binary (linux/amd64/lambda-processor)...$(NO_COLOR)"
 	@echo GOOS=linux GOARCH=amd64 $(GO) build -v -o bin/linux_amd64/lambda-processor ./cmd/lambda-processor
 	@GOOS=linux GOARCH=amd64 $(GO) build -v $(BUILDFLAGS) -o bin/linux_amd64/lambda-processor ./cmd/lambda-processor
+
+## up: start services
+up: build
+	@echo "$(OK_COLOR)==> Starting services...$(NO_COLOR)"
+	$(DOCKER_COMPOSE) up
+
+## down: stop services
+down: build
+	@echo "$(OK_COLOR)==> Stopping services...$(NO_COLOR)"
+	$(DOCKER_COMPOSE) down
 
 # lint: linter in code
 lint:
