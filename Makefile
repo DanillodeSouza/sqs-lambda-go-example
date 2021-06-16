@@ -46,7 +46,7 @@ get-linter:
 	@echo "$(OK_COLOR)==> Getting linter...$(NO_COLOR)"
 	@go get -v -u golang.org/x/lint/golint
 
-zip:
+zip: build
 	@echo "$(OK_COLOR)==> Zipping binary (linux/amd64/lambda-processor)...$(NO_COLOR)"
 	cd bin/linux_amd64 && zip lambda-processor.zip lambda-processor
 

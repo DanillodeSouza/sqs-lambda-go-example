@@ -39,13 +39,11 @@ func handle(ctx context.Context, sqsEvent events.SQSEvent) error {
 			return err
 		}
 
-		userID, err := strconv.Atoi(messageData["ID"])
+		_, err := strconv.Atoi(messageData["ID"])
 		if err != nil {
 			example.LogError(logger, start, transactionID, fmt.Sprintf("User ID string to int conversion error: %s", err.Error()), extras)
 			return err
 		}
-
-		fmt.Sprintf("%d", userID)
 
 		example.LogDebug(logger, transactionID, extras)
 		example.LogProcessedResult(logger, start, transactionID, extras)
